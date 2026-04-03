@@ -2716,7 +2716,29 @@ scene.add(dir);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.enablePan = false;
-controls.enableRotate = false;
+controls.enableRotate = true;
+controls.rotateSpeed = 0.9;
+controls.zoomSpeed = 0.9;
+controls.mouseButtons = {
+  LEFT: THREE.MOUSE.ROTATE,
+  MIDDLE: THREE.MOUSE.DOLLY,
+  RIGHT: THREE.MOUSE.ROTATE,
+};
+controls.touches = {
+  ONE: THREE.TOUCH.ROTATE,
+  TWO: THREE.TOUCH.DOLLY_PAN,
+};
+renderer.domElement.style.cursor = "grab";
+renderer.domElement.style.touchAction = "none";
+renderer.domElement.addEventListener("pointerdown", () => {
+  renderer.domElement.style.cursor = "grabbing";
+});
+const releaseThreeCursor = () => {
+  renderer.domElement.style.cursor = "grab";
+};
+renderer.domElement.addEventListener("pointerup", releaseThreeCursor);
+renderer.domElement.addEventListener("pointerleave", releaseThreeCursor);
+renderer.domElement.addEventListener("pointercancel", releaseThreeCursor);
 
 const GRID_SIZE = 240;
 const grid = new THREE.GridHelper(GRID_SIZE, 24, 0x999999, 0xcccccc);
